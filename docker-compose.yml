@@ -1,0 +1,54 @@
+version: '3.6'
+
+services:
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - "./data/certbot/conf:/etc/letsencrypt"
+      - "./data/certbot/www:/var/www/certbot"
+      - "./services/portal/portal/static:/static"
+      - "./services/portal/media:/media"
+    ports:
+      - 80:80
+      - 443:443
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - spaceapps
+      
+  spaceapps:
+    build:
+      context: ./services/spaceapps
+      dockerfile: Dockerfile
+    restart: on-failure
+    command: gunicorn --bind 0.0.0.0:8000 --timeout 120 --workers 2 portal.wsgi
+    volumes:
+      - './services/spaceapps:/usr/src/app'
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=0
+    depends_on:
+      - client-db
+      - mongo-db
+      
+      
+  client-db:
+    build:
+      context: ./services/client-db
+      dockerfile: Dockerfile
+    ports:
+      - "5435:5432"
+    environment:
+     - POSTGRES_USER=spaceapps
+     - POSTGRES_PASSWORD=sp@c3@pp5
+     
+  certbot:
+     image: certbot/certbot
+     volumes:
+       - "./data/certbot/conf:/etc/letsencrypt"
+       - "./data/certbot/www:/var/www/certbot"
+     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
