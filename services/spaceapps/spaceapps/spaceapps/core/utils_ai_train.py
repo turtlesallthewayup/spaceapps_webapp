@@ -59,7 +59,9 @@ def ai_train(images_labels):
         for d1 in d:
             data.append(np.asarray(d1))
             labels.append(i)
-
+    
+    print(len(data))
+    print(len(labels))
     # scaling the data points from [0, 255] to the range [0, 1]
     # data = np.array(data, dtype="float32") / 255.0
     # labels = np.array(labels)

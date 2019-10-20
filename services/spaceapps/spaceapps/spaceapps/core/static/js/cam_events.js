@@ -2,6 +2,11 @@ var fiveMinutes = 5;
 var imageCapture;
 var images = [];
 
+const video = document.querySelector('#basic video');
+const captureVideoButton = document.querySelector('#basic .capture-button');
+const x = null;
+const fd = new FormData();
+
 $(document).ready(function(){
     
     var display = document.querySelector('#stop-button');
@@ -43,13 +48,14 @@ function startTimerBotao(duration, display) {
             $("#again").show();
             $('#next').show();
             clearInterval(interval);
+            
+            startTimerGravacao();
         }
       
         if (--timer < 0) {
             timer = duration;
             return;
         }
-        
     
     }, 1000);
 }
@@ -124,65 +130,55 @@ function handleError(error) {
 }
 const constraints = {video: true};
 
-
-
-(function() {
-  const video = document.querySelector('#basic video');
-  const captureVideoButton = document.querySelector('#basic .capture-button');
-  const x = null
-  const fd = new FormData()
   
-  function handleSuccess(stream) {
-    
-    localMediaStream = stream;
-    video.srcObject = stream;
-    
-  }
+function handleSuccess(stream) {
 
- function stopEventStreming(label) {
-    
-    // var list_tmp = []
-    
-    // $(images).each(function(i, obj){
-      
-      
-    //   console.log(obj);
-    //   console.log(typeof(obj));
+localMediaStream = stream;
+video.srcObject = stream;
 
-    //   // console.log(obj.image.toString('base64'));
+}
 
-      
-    //   // list_tmp.push(obj.image.toString('base64'));
-      
-    // });
-    
-    // images = list_tmp
-    
-    console.log(images)
+function stopEventStreming(label) {
+
+// var list_tmp = []
+
+// $(images).each(function(i, obj){
   
-    //video.pause();
-    // localMediaStream.stop();
-    console.log('STOP COMPLETE');
-    
-     $.ajax({
-            url: $("#receive_blob_url").val(),
-            data: {
-                images:images,
-                label:label,
-            },
-            dataType: 'json',
-            method:"POST",
-            success: function(data) {
-                if (data) {
-                    console.log(data.message);
-                    $('#cash_in').text('R$ ' + data.cash)
-                }
+  
+//   console.log(obj);
+//   console.log(typeof(obj));
+
+//   // console.log(obj.image.toString('base64'));
+
+  
+//   // list_tmp.push(obj.image.toString('base64'));
+  
+// });
+
+// images = list_tmp
+
+console.log(images)
+
+//video.pause();
+// localMediaStream.stop();
+console.log('STOP COMPLETE');
+
+ $.ajax({
+        url: $("#receive_blob_url").val(),
+        data: {
+            images:images,
+            label:label,
+        },
+        dataType: 'json',
+        method:"POST",
+        success: function(data) {
+            if (data) {
+                console.log(data.message);
+                $('#cash_in').text('R$ ' + data.cash)
             }
-        });
-  }
-
-
-})();
+        }
+    });
+}
 
 (function() {
   onGetUserMediaButtonClick()
