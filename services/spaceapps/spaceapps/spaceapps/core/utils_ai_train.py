@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from keras import optimizers
 import numpy as np
+from collections import Counter
 
 import os
 import cv2
