@@ -63,15 +63,9 @@ def ai_predict(imgPath):
 
     # #load previously trained model
     
-<<<<<<< HEAD
-    model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3))
+    model = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
+    #model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
     graph = tf.get_default_graph()
-    
-=======
-	model = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
-	#model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
-	graph = tf.get_default_graph()
->>>>>>> 75cc9a45cefaa0695e38573c24fdbe438545f354
     
     
     
