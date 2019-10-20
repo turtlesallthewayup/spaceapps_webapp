@@ -8,7 +8,7 @@ import os
 import time
 import tensorflow as tf
 from keras import applications
-from gtts import gTTS
+# from gtts import gTTS
 from pygame import mixer
 import shutil
 
@@ -27,14 +27,7 @@ FONT = cv2.FONT_HERSHEY_SIMPLEX
 
 from keras.backend.tensorflow_backend import set_session
 import tensorflow as tf
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-config.log_device_placement = True  # to log device placement (on which device the operation ran)
-sess = tf.Session(config=config)
 
-# #load previously trained model
-model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
-top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
 
 # #load labels
 # labels = os.listdir('./dataset')
@@ -60,6 +53,14 @@ top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
 #     ret, frame = cap.read()
 def ai_predict(imgPath):    
 #     #preprocessing frame to predict its label
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+    config.log_device_placement = True  # to log device placement (on which device the operation ran)
+    sess = tf.Session(config=config)
+
+    # #load previously trained model
+    model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
+    top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
     frame2 = cv2.imread(imagePath)
     frame2 = cv2.resize(frame, (IMAGE_SIZE, IMAGE_SIZE))
     frame2 = img_to_array(frame2)
