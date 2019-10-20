@@ -4,7 +4,7 @@
 
 <body>
 	<!-- Team Section -->
-	
+	<input id="predict_url" type="hidden" value="{% url 'core:predict'%}" >
 	<div class="team-section spad">
 		<div class="overlay"></div>
 		<div class="container">
@@ -87,7 +87,7 @@ function onGrabFrameCaptureOne() {
   imageCapture.grabFrame()
   .then(imageBitmap => {
     $.ajax({
-        url: $("#receive_blob_url").val(),
+        url: $("#predict_url").val(),
         data: {
             image:drawCanvas(imageBitmap)
         },
