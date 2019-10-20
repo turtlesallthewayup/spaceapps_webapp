@@ -2,11 +2,14 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 import io
+import os
 
 from spaceapps.core.utils import base64_to_file
 from spaceapps.core.utils_ai_train import ai_train
+
 
 DATA = []
 # Create your views here.
@@ -69,9 +72,15 @@ def receive_blob(request):
     data = request.POST.getlist("images[]")
     label = request.POST.get("label")
     images_file = []
-    for d in data:
-        x=base64_to_file(d)
-        images_file.append(x)
+    for i, d in enumerate(data):
+        pillow_img=base64_to_file(d)
+        
+        file_name = 'img_{}.jpeg'.format(i)
+        
+        #pillow_img.save('datasets/{}/img_{}.jpeg'.format(label, i), 'JPEG')
+        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'+label+'/' + file_name), "JPEG")
+
+        images_file.append(pillow_img)
     
     DATA.append((label, images_file))
     print(DATA)    

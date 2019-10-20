@@ -27,7 +27,7 @@ def base64_to_file(link_base64):
     try:
 
         img_format, data = link_base64.split(';base64,')    
-        return Image.open(BytesIO(base64.b64decode(data)))    
+        return Image.open(BytesIO(base64.b64decode(data))).convert('RGB')
         
         # return ContentFile(base64.b64decode(img_str), name='{}.{}'.format(name, extension))
         
