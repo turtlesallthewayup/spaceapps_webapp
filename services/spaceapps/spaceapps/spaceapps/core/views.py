@@ -54,11 +54,12 @@ def traning_step9(request):
     
 def traning_step10(request):
     context = {}
-    train()
+    
     return render(request, 'traning_step10.html', context)
     
 def control(request):
     context = {}
+    train()
     return render(request, 'control.html', context)
     
     
