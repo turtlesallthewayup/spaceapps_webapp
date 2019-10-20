@@ -12,8 +12,6 @@ from keras import applications
 from pygame import mixer
 import shutil
 
-from django.conf import settings
-
 # Global variables
 RANDOM_SEED = 2017
 
