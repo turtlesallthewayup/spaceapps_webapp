@@ -26,7 +26,7 @@
                         </div>    
           			</div>
                       <div class="text-center">
-          				    <p><button class="capture-button site-btn text-center">Iniciar</button>
+          				    <p><button class="start-controll-button site-btn text-center" onclick="startControl()">Iniciar</button>
           			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
       				  </p>
       				</div>
@@ -49,7 +49,7 @@
 
 <script>
     $(document).ready(function(){
-    $('.capture-button').on('click', function (e) {
+    $('.start-controll-button').on('click', function (e) {
         console.log("estou funcionando")
         $('#down-control').addClass('video-r');
         $('#down-control').addClass('control-video');
@@ -71,6 +71,43 @@
   
   
 });
+
+function onGrabFrameCaptureOne() {
+  
+  // imageCapture.takePhoto()
+  // .then(blob => createImageBitmap(blob))
+  // .then(imageBitmap => {
+  //   const canvas = document.querySelector('#takePhotoCanvas');
+  //   drawCanvas(canvas, imageBitmap);
+  // })
+  // .catch(error => console.log(error));
+  
+  
+  
+  imageCapture.grabFrame()
+  .then(imageBitmap => {
+    $.ajax({
+        url: $("#receive_blob_url").val(),
+        data: {
+            image:drawCanvas(imageBitmap);
+        },
+        dataType: 'json',
+        method:"POST",
+        success: function(data) {
+            console.log("success")
+            }
+        }
+    );
+  }).catch(error => console.error(error));
+  // .catch(error => ChromeSamples.log(error));
+}
+
+function startControl() {
+    
+    var x = setInterval(function(){
+      onGrabFrameCaptureOne()       
+    }, 1000);
+}
 
     
 </script>

@@ -22,4 +22,5 @@ urlpatterns = [
     #===============================================================
     #Keras methods
     path('receive_blob', receive_blob, name='receive_blob'),
+    path('predict', predict, name='predict'),
 ]
