@@ -89,7 +89,7 @@ function onGrabFrameCaptureOne() {
     $.ajax({
         url: $("#receive_blob_url").val(),
         data: {
-            image:drawCanvas(imageBitmap);
+            image:drawCanvas(imageBitmap)
         },
         dataType: 'json',
         method:"POST",
