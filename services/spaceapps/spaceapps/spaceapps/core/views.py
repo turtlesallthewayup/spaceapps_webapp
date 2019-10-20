@@ -9,6 +9,7 @@ import os
 
 from spaceapps.core.utils import base64_to_file
 from spaceapps.core.utils_ai_train import ai_train
+from spaceapps.core.utils_ai_predict import ai_predict
 
 
 DATA = []
@@ -75,10 +76,9 @@ def receive_blob(request):
     for i, d in enumerate(data):
         pillow_img=base64_to_file(d)
         
-        file_name = 'img_{}.jpg'.format(i)
+        file_name = 'img_{}.jpeg'.format(i)
         
-        #pillow_img.save('datasets/{}/img_{}.jpeg'.format(label, i), 'JPEG')
-        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'+label+'/' + file_name), "JPG")
+        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets', label, file_name), "JPEG")
 
         images_file.append(pillow_img)
     
@@ -93,9 +93,15 @@ def train():
 
 @csrf_exempt
 def predict(request):
-    #salvar imagem e mandar path
-    path = ""
-    ai_predict(path)
+    
+    data = request.POST.get("image")
+    pillow_img=base64_to_file(data)
+    pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg'), "JPEG")
+    
+    path = os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg')
+    command = ai_predict(path)
+    
+    print(command)
 
 @csrf_exempt
 def start_stream(request):
