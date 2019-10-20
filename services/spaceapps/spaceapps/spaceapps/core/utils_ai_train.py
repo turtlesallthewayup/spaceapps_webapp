@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from keras import optimizers
 from collections import Counter
+from django.conf import settings
 
 import os
 import cv2
@@ -71,16 +72,18 @@ labels = []
 def ai_train(images_labels):
     data = []
     labels = []
-    imagePaths = sorted(list(paths.list_images('dataset')))
+    imagePaths = sorted(list(paths.list_images(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'))))
     print(imagePaths)
-    print(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'statdatasets/1/' + file_name))
-    for i, d in images_labels:
-        for d1 in d:
-            image = cv2.imread(imagePath)
-            image = cv2.resize(image, (CONST.IMAGE_SIZE, CONST.IMAGE_SIZE))
-            image = img_to_array(image)
-            data.append(np.asarray(image).flatten()/ 255.0)
-            labels.append(int(i))
+    
+    for imagePath in imagePaths:
+    
+        image = cv2.imread(imagePath)
+        image = cv2.resize(image, (IMAGE_SIZE, IMAGE_SIZE))
+        image = img_to_array(image)
+        data.append(np.asarray(image).flatten()/ 255.0)
+        lab = imagePath.replace(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'), "")[0]
+        print(lab)
+        labels.append(int(lab))
     
     print(len(data))
     print(len(labels))
