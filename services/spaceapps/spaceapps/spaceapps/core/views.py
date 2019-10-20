@@ -79,7 +79,7 @@ def receive_blob(request):
 @csrf_exempt
 def train(request):
     ai_train(DATA)
-    DATA = []
+
     return JsonResponse({"status":200})
 
 @csrf_exempt
