@@ -121,3 +121,5 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/django
 services/spaceapps/spaceapps/core/migrations/
+services/spaceapps/spaceapps/core/datasets/
+services/spaceapps/spaceapps/pipoca/
