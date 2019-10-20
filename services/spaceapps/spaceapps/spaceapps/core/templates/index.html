@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="about-contant">
+		<div class="container" style="background: #2be6ab;">
+			<div class="section-title" style="padding-top: 140px; margin-bottom: 20px;">
+				<h2>Controle de <span>Drone</span> por gestos</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<p>Pesquisadores explorando zonas inóspitas ou equipes de resgate arriscam vidas para efetuar o seu trabalho. Utilizando um drone para identificar o risco e a situação do ambiente eles obtém melhor trajeto praticável evitando rotas de riscos concluindo seu objetivo. Porém em casos de controle manual sua usabilidade é muito difícil demandando tempo e custo em treinamento dificultando a performance do controlador.</p>
+					<p>Em meio de uma exploração ou resgate de alto risco, onde as condições ambientais não são favoráveis existe a possibilidade de perda do controle autônomo, se não houver modo de segurança manual ágil e acessível ao controlador o drone pode ser danificado ou perdido gerando um prejuízo ou pior perda de uma vida em perigo.</p>
+				</div>
+				<div class="col-md-6">
+					<p>O Funcionamento consiste em duas etapas:</p>
+					<p>1 – Defina a representação dos movimentos do drone</p>
+				</div>
+				<div class="text-center">
+						<img src="{% static 'img/exemplo-uso.jpg' %}" alt="" style="max-width: 30%;">
+					</div>
+				<div class="col-md-6">
+					<p>2- Teste seus movimentos</p>
+				</div>
+			</div>
+			<div class="text-center mb30">
+				<a href="{% url 'core:traning_step1' %}" class="site-btn" style="background: #641fb1; color: #fff;">Começar</a>
+			</div>
+		</div>
+	</div>	
+</div>
+
+{% endblock %}
+
+{% block script %} 
+<script>
+
+  $( ".item-menu" ).removeClass( "active" );
+  $( ".menu-index" ).addClass( "active" );
+  
+</script>
+{% endblock %}

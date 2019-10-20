@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+	<!-- Team Section -->
+	
+	<div class="team-section spad">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="section-title">
+				<h2>Controle</h2>
+			</div>
+			<div class="row">
+              <div id="basic" style="text-align:center;">
+                  <div class="row">
+                      
+                      <div class="col-md-12" style="">
+                          <canvas id="myCanvas" style="width:80%; object-fit:contain;border:1px solid #000000;"></canvas>
+                      </div>
+    
+                  </div>
+                   <div class="" id="down-control">
+          				<div class="col-sm-12">
+                              <video class="videostream man-video" autoplay="" style="width:200px; object-fit:contain"></video>
+                        </div>    
+          			</div>
+                      <div class="text-center">
+          				    <p><button class="capture-button site-btn text-center">Iniciar</button>
+          			        <button id="stop-button" class="site-btn text-center">Stop</button>
+      				  </p>
+      				</div>
+      			
+      			    
+    			
+              </div>
+			</div>
+		</div>
+	</div>
+	<!-- Team Section end-->
+
+
+	<!-- Promotion section -->
+	<!-- Promotion section end-->
+</body>
+
+{% endblock %}
+{% block script %}
+
+<script>
+    $(document).ready(function(){
+    $('.capture-button').on('click', function (e) {
+        console.log("estou funcionando")
+        $('#down-control').addClass('video-r');
+        $('#down-control').addClass('control-video');
+        $('.videostream').show();
+        $('.capture-button').hide();
+        $('#stop-button').show();
+        $('#stop-button').on('click', function () {
+           $('.capture-button').show();
+           $('#stop-button').hide();
+        });
+    });  
+   $( ".item-menu" ).removeClass( "active" );
+   $( ".menu-treino" ).addClass( "active" );
+   $('.videostream').hide();
+   $('#stop-button').hide();
+      
+  
+  
+  
+  
+});
+
+    
+</script>
+
+
+<script>
+
+function handleError(error) {
+  console.error('navigator.getUserMedia error: ', error);
+}
+const constraints = {video: true};
+
+(function() {
+  const video = document.querySelector('#basic video');
+  const captureVideoButton = document.querySelector('#basic .capture-button');
+  let localMediaStream;
+
+  function handleSuccess(stream) {
+    localMediaStream = stream;
+    video.srcObject = stream;
+  }
+
+  captureVideoButton.onclick = function() {
+    navigator.mediaDevices.getUserMedia(constraints).
+      then(handleSuccess).catch(handleError);
+  };
+
+  document.querySelector('#stop-button').onclick = function() {
+    video.pause();
+    localMediaStream.stop();
+  };
+})();
+
+(function() {
+  const captureVideoButton =
+    document.querySelector('#screenshot .capture-button');
+  const screenshotButton = document.querySelector('#screenshot-button');
+  const img = document.querySelector('#screenshot img');
+  const video = document.querySelector('#screenshot video');
+
+  const canvas = document.createElement('canvas');
+
+  captureVideoButton.onclick = function() {
+    navigator.mediaDevices.getUserMedia(constraints).
+      then(handleSuccess).catch(handleError);
+  };
+
+  screenshotButton.onclick = video.onclick = function() {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    // Other browsers will fall back to image/png
+    img.src = canvas.toDataURL('image/webp');
+  };
+
+  function handleSuccess(stream) {
+    screenshotButton.disabled = false;
+    video.srcObject = stream;
+  }
+})();
+
+(function() {
+  const captureVideoButton =
+    document.querySelector('#cssfilters .capture-button');
+  const cssFiltersButton = document.querySelector('#cssfilters-apply');
+  const video = document.querySelector('#cssfilters video');
+
+  let filterIndex = 0;
+  const filters = [
+    'grayscale',
+    'sepia',
+    'blur',
+    'brightness',
+    'contrast',
+    'hue-rotate',
+    'hue-rotate2',
+    'hue-rotate3',
+    'saturate',
+    'invert',
+    ''
+  ];
+
+  captureVideoButton.onclick = function() {
+    navigator.mediaDevices.getUserMedia(constraints).
+      then(handleSuccess).catch(handleError);
+  };
+
+  cssFiltersButton.onclick = video.onclick = function() {
+    video.className = filters[filterIndex++ % filters.length];
+  };
+
+  function handleSuccess(stream) {
+    video.srcObject = stream;
+  }
+})();
+</script>
+{% endblock %}

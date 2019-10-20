@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+	<!-- Team Section -->
+	<input id="label" type="hidden" value="10" />
+		
+	<div class="team-section spad">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="section-title">
+				<h2>Qual o movimento para desligar ?</h2>
+			</div>
+			<div class="row">
+          <div id="basic" style="text-align:center;">
+              <video class="videostream " autoplay="" style="width:80%;height:400px;"></video>
+                  <div class="text-center">
+  				    <p><button class="capture-button site-btn text-center">Gravar</button>
+  				        <button id="stop-button" class="site-btn text-center" >00:05</button>
+  				        <a href="{% url 'core:control' %}" id="next" class="site-btn text-center" >Próximo</a>
+  				        <a href="{% url 'core:traning_step10' %}"  id="again" class="site-btn text-center">Recomeçar</a>
+  				        </p>
+  				</div>
+          </div>
+			</div>
+		</div>
+	</div>
+	<!-- Team Section end-->
+</body>
+
+{% endblock %}
+{% block script %}
+<script>
+  execCam();
+</script>
+
+{% endblock %}

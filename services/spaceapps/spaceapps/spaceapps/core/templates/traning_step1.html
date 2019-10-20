@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<input type="hidden" id="receive_blob_url" value="{% url 'core:receive_blob' %}"/>
+
+<body>
+	<!-- Team Section -->
+	<input id="label""label" type="hidden" value="1" />
+	<div class="team-section spad">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="section-title">
+			  <input type="hidden" id="estado-atual" name="estado-atual" value="1">
+				<h2 id="label-passo">Qual o movimento de ligar ?</h2>
+			</div>
+			<div class="row">
+			  
+          <div id="basic" style="text-align:center;">
+              <video class="videostream " autoplay="" style="width:80%;height:400px;"></video>
+                  <div class="text-center">
+  				    <p><button class="capture-button site-btn text-center">Gravar</button>
+  				        <button id="stop-button" class="site-btn text-center" >00:05</button>
+  				        <a href="{% url 'core:traning_step2' %}"  id="next" class="site-btn text-center">Próximo</a>
+  				        <a href="{% url 'core:traning_step1' %}"  id="again" class="site-btn text-center">Recomeçar</a>
+  				        </p>
+  				</div>
+          </div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+{% endblock %}
+{% block script %}
+<script>
+  execCam();
+</script>
+{% endblock %}
