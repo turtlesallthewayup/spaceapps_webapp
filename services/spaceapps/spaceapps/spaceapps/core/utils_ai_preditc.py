@@ -18,7 +18,7 @@ RANDOM_SEED = 2017
 FRAMES_PER_VIDEO = 50
 IMAGE_SIZE = 150
 
-SAVE_DIR = os.path.join(os.getcwd(), 'saved_models')
+SAVE_DIR = os.path.join(os.path.join(settings.BASE_DIR, 'spaceapps', 'core'), 'saved_models')
 CRAPPY_MODEL = 'crappy_model.h5'
 BOTTLENECK_MODEL = 'bottleneck_model.h5'
 
