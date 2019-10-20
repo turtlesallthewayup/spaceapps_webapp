@@ -61,7 +61,7 @@ def ai_predict(imgPath):
     # #load previously trained model
     model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
     top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
-    frame2 = cv2.imread(imagePath)
+    frame2 = cv2.imread(imgPath)
     frame2 = cv2.resize(frame2, (IMAGE_SIZE, IMAGE_SIZE))
     frame2 = img_to_array(frame2)
     frame2 = np.array(frame2, dtype="float32") / 255
