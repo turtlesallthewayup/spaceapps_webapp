@@ -73,7 +73,7 @@ def receive_blob(request):
         images_file.append(x)
     
     DATA.append((label, images_file))
-        
+    print(DATA)    
     return JsonResponse({"status":200})
     
 @csrf_exempt
