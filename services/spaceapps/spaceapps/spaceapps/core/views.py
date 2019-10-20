@@ -96,9 +96,11 @@ def predict(request):
     
     data = request.POST.get("image")
     pillow_img=base64_to_file(data)
-    pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg'), "JPEG")
-    
+
     path = os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg')
+
+    pillow_img.save(path, "JPEG")
+    
     command = ai_predict(path)
     
     print(command)
