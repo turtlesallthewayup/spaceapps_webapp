@@ -33,7 +33,7 @@ config.log_device_placement = True  # to log device placement (on which device t
 sess = tf.Session(config=config)
 
 # #load previously trained model
-model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,CONST.IMAGE_SIZE,3)) 
+model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
 top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
 
 # #load labels
@@ -61,7 +61,7 @@ top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
 def ai_predict(imgPath):    
 #     #preprocessing frame to predict its label
     frame2 = cv2.imread(imagePath)
-    frame2 = cv2.resize(frame, (CONST.IMAGE_SIZE, CONST.IMAGE_SIZE))
+    frame2 = cv2.resize(frame, (IMAGE_SIZE, IMAGE_SIZE))
     frame2 = img_to_array(frame2)
     frame2 = np.array(frame2, dtype="float32") / 255
 #     # generating a prdiction of the frame  
@@ -76,8 +76,8 @@ def ai_predict(imgPath):
     
 #     y_pred_old = y_pred[0]
     
-#     # cv2.putText(frame, labels[y_pred[0]] , (10, 30), CONST.FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
-#     cv2.putText(frame, "Press q to exit", (10, 450), CONST.FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
+#     # cv2.putText(frame, labels[y_pred[0]] , (10, 30), FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
+#     cv2.putText(frame, "Press q to exit", (10, 450), FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
     
 #     # Display the resulting frame
 #     cv2.imshow('frame',frame)

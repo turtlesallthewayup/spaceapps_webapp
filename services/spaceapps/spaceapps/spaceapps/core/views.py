@@ -9,7 +9,7 @@ import os
 
 from spaceapps.core.utils import base64_to_file
 from spaceapps.core.utils_ai_train import ai_train
-from spaceapps.core.utils_ai_predict import ai_predict
+from spaceapps.core.utils_ai_preditc import ai_predict
 
 
 DATA = []
