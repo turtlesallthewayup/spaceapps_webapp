@@ -61,3 +61,6 @@ def _drone_accelerate():
 
 def _drone_decelerate():
     t -= 10
+    
+# _apply_clamp()
+# drone.cmd(r, p, t, y)
