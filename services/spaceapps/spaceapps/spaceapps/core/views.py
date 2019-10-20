@@ -43,7 +43,6 @@ def traning_step7(request):
     context = {}
     return render(request, 'traning_step7.html', context)
     
-    
 def traning_step8(request):
     context = {}
     return render(request, 'traning_step8.html', context)

@@ -27,7 +27,7 @@
           			</div>
                       <div class="text-center">
           				    <p><button class="capture-button site-btn text-center">Iniciar</button>
-          			        <button id="stop-button" class="site-btn text-center">Stop</button>
+          			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
       				  </p>
       				</div>
       			
@@ -55,16 +55,16 @@
         $('#down-control').addClass('control-video');
         $('.videostream').show();
         $('.capture-button').hide();
-        $('#stop-button').show();
-        $('#stop-button').on('click', function () {
+        $('#stop-no-number').show();
+        $('#stop-no-number').on('click', function () {
            $('.capture-button').show();
-           $('#stop-button').hide();
+           $('#stop-no-number').hide();
         });
     });  
    $( ".item-menu" ).removeClass( "active" );
    $( ".menu-treino" ).addClass( "active" );
    $('.videostream').hide();
-   $('#stop-button').hide();
+   $('#stop-no-number').hide();
       
   
   
@@ -98,7 +98,7 @@ const constraints = {video: true};
       then(handleSuccess).catch(handleError);
   };
 
-  document.querySelector('#stop-button').onclick = function() {
+  document.querySelector('#stop-no-number').onclick = function() {
     video.pause();
     localMediaStream.stop();
   };
