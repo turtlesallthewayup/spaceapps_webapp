@@ -53,6 +53,7 @@ def traning_step9(request):
     
 def traning_step10(request):
     context = {}
+    train()
     return render(request, 'traning_step10.html', context)
     
 def control(request):
@@ -72,14 +73,13 @@ def receive_blob(request):
         images_file.append(x)
     
     DATA.append((label, images_file))
-        
+    print(DATA)    
     return JsonResponse({"status":200})
     
 @csrf_exempt
-def train(request):
+def train():
     ai_train(DATA)
-
-    return JsonResponse({"status":200})
+    
 
 @csrf_exempt
 def predict(request):

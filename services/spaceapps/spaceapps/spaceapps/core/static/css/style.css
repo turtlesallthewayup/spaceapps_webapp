@@ -857,8 +857,8 @@ ul {
 
 @keyframes fa-blink {
      0% { opacity: 1; }
-     50% { opacity: 0.5; }
-     100% { opacity: 0; }
+     50% { opacity: 0.5; }1
+
  }
 .fa-blink {
    -webkit-animation: fa-blink .75s linear infinite;
