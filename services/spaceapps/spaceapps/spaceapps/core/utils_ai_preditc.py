@@ -56,10 +56,10 @@ global graph
 def ai_predict(imgPath):
     print("PATH:", imgPath)
 #     #preprocessing frame to predict its label
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-    config.log_device_placement = True  # to log device placement (on which device the operation ran)
-    sess = tf.Session(config=config)
+    # config = tf.ConfigProto()
+    # config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+    # config.log_device_placement = True  # to log device placement (on which device the operation ran)
+    # sess = tf.Session(config=config)
 
     # #load previously trained model
     
