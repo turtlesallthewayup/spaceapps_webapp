@@ -60,8 +60,12 @@ def ai_predict(imgPath):
     sess = tf.Session(config=config)
 
     # #load previously trained model
+    global model
+    global graph
+	
+	model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
+	graph = tf.get_default_graph()
     
-    #model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
     
     top_model = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
     frame2 = cv2.imread(imgPath)
@@ -71,9 +75,9 @@ def ai_predict(imgPath):
 #     # generating a prdiction of the frame 
 
     
-    y_pred = top_model.predict_classes(frame2)
+    #y_pred = top_model.predict_classes(frame2)
     
-    #y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
+    y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
     print("y_pred:", y_pred)
     
     return y_pred[0]
