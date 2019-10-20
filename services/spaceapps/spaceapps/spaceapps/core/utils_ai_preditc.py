@@ -60,8 +60,9 @@ def ai_predict(imgPath):
     sess = tf.Session(config=config)
 
     # #load previously trained model
-    model._make_predict_function()
+    
     model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
+    model._make_predict_function()
     top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
     frame2 = cv2.imread(imgPath)
     frame2 = cv2.resize(frame2, (IMAGE_SIZE, IMAGE_SIZE))
