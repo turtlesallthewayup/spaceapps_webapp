@@ -77,8 +77,7 @@ def receive_blob(request):
         
         file_name = 'img_{}.jpeg'.format(i)
         
-        #pillow_img.save('datasets/{}/img_{}.jpeg'.format(label, i), 'JPEG')
-        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'+label+'/' + file_name), "JPEG")
+        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets', label, file_name), "JPEG")
 
         images_file.append(pillow_img)
     
@@ -93,8 +92,12 @@ def train():
 
 @csrf_exempt
 def predict(request):
-    #salvar imagem e mandar path
-    path = ""
+    
+    data = request.POST.get("image")
+    pillow_img=base64_to_file(data)
+    pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg'), "JPEG")
+    
+    path = os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg')
     ai_predict(path)
 
 @csrf_exempt
