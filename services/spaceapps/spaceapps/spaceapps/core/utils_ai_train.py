@@ -1,28 +1,28 @@
 #keras
-# import CONST
-# import numpy as np
-# import os
-# import cv2
-# import time
-# from imutils import paths
-# from sklearn.model_selection import train_test_split
-# from keras.preprocessing.image import img_to_array
-# from keras.utils import to_categorical
-# from keras.models import Sequential
-# from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
-# import matplotlib.pyplot as plt
-# from PIL import Image
-# from keras import optimizers
+import CONST
 import numpy as np
-# EPOCHS = 15
-# BATCH_SIZE = 15
-# NUM_CLASSES = 3
-# TEST_SIZE = 0.25
-# TRAIN_SAMPLES = CONST.FRAMES_PER_VIDEO*NUM_CLASSES*(1-TEST_SIZE) #112
-# VAL_SAMPLES = CONST.FRAMES_PER_VIDEO*NUM_CLASSES*TEST_SIZE #38
+import os
+import cv2
+import time
+from imutils import paths
+from sklearn.model_selection import train_test_split
+from keras.preprocessing.image import img_to_array
+from keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
+import matplotlib.pyplot as plt
+from PIL import Image
+from keras import optimizers
+import numpy as np
+EPOCHS = 15
+BATCH_SIZE = 15
+NUM_CLASSES = 3
+TEST_SIZE = 0.25
+TRAIN_SAMPLES = CONST.FRAMES_PER_VIDEO*NUM_CLASSES*(1-TEST_SIZE) #112
+VAL_SAMPLES = CONST.FRAMES_PER_VIDEO*NUM_CLASSES*TEST_SIZE #38
 
-# data = []
-# labels = [] 
+data = []
+labels = [] 
 
 # helper function to plot a history of model's accuracy and loss
 # def plot_model_history(model_history):
