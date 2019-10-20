@@ -24,8 +24,6 @@ BOTTLENECK_MODEL = 'bottleneck_model.h5'
 
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 
-from keras import backend as k
-from keras.backend.tensorflow_backend import set_session
 import tensorflow as tf
 
 global model
@@ -72,7 +70,9 @@ def ai_predict(imgPath):
     frame2 = cv2.imread(imgPath)
     frame2 = cv2.resize(frame2, (IMAGE_SIZE, IMAGE_SIZE))
     frame2 = img_to_array(frame2)
-    frame2 = np.array(frame2, dtype="float32") / 255
+    frame2 = np.array(frame2, dtype="float32") / 255.0
+
+    Image.fromarray((frame2[-1]* 255).round().astype(np.uint8))
 #     # generating a prdiction of the frame 
 
     with graph.as_default():
