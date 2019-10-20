@@ -25,7 +25,8 @@ BOTTLENECK_MODEL = 'bottleneck_model.h5'
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 
 from keras import backend as k
-
+from keras.backend.tensorflow_backend import set_session
+import tensorflow as tf
 
 
 # #load labels
@@ -51,8 +52,6 @@ from keras import backend as k
 #     # Capture frame-by-frame
 #     ret, frame = cap.read()
 def ai_predict(imgPath):
-    from keras.backend.tensorflow_backend import set_session
-    import tensorflow as tf
     print("PATH:", imgPath)
 #     #preprocessing frame to predict its label
     config = tf.ConfigProto()
@@ -74,7 +73,7 @@ def ai_predict(imgPath):
     
     y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
     print("y_pred:", y_pred)
-    k.clear_session()
+    
     return y_pred[0]
 #     # if(y_pred[0] != y_pred_old): 
 #     #     mixer.music.load("./sounds/"+str(y_pred[0])+'.mp3')
