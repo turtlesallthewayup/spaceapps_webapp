@@ -28,6 +28,8 @@ from keras import backend as k
 from keras.backend.tensorflow_backend import set_session
 import tensorflow as tf
 
+global model
+global graph
 
 # #load labels
 # labels = os.listdir('./dataset')
@@ -60,8 +62,7 @@ def ai_predict(imgPath):
     sess = tf.Session(config=config)
 
     # #load previously trained model
-    global model
-    global graph
+    
 	
 	model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
 	graph = tf.get_default_graph()
