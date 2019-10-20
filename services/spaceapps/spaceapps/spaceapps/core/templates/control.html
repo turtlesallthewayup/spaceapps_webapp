@@ -26,7 +26,7 @@
                         </div>    
           			</div>
                       <div class="text-center">
-          				    <p><button class="start-controll-button site-btn text-center" onclick="startControl()">Iniciar</button>
+          				    <p><button class="start-controll-button site-btn text-center">Iniciar</button>
           			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
       				  </p>
       				</div>
@@ -109,11 +109,9 @@ function startControl() {
     }, 1000);
 }
 
-    
-</script>
-
-
-<script>
+$(".start-controll-button").on("click", fucntion(){
+  startControl()
+})    
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
