@@ -75,10 +75,10 @@ def receive_blob(request):
     for i, d in enumerate(data):
         pillow_img=base64_to_file(d)
         
-        file_name = 'img_{}.jpeg'.format(i)
+        file_name = 'img_{}.jpg'.format(i)
         
         #pillow_img.save('datasets/{}/img_{}.jpeg'.format(label, i), 'JPEG')
-        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'+label+'/' + file_name), "JPEG")
+        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'+label+'/' + file_name), "JPG")
 
         images_file.append(pillow_img)
     
