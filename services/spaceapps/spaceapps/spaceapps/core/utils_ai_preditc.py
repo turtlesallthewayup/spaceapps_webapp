@@ -1,27 +1,40 @@
 # # import the necessary packages
 # import CONST
-# import numpy as np
-# import cv2
-# from keras.models import load_model
-# from keras.preprocessing.image import img_to_array
-# import os
-# import time
-# import tensorflow as tf
-# from keras import applications
-# from gtts import gTTS
-# from pygame import mixer
-# import shutil
+import numpy as np
+import cv2
+from keras.models import load_model
+from keras.preprocessing.image import img_to_array
+import os
+import time
+import tensorflow as tf
+from keras import applications
+from gtts import gTTS
+from pygame import mixer
+import shutil
 
-# from keras.backend.tensorflow_backend import set_session
-# import tensorflow as tf
-# config = tf.ConfigProto()
-# config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-# config.log_device_placement = True  # to log device placement (on which device the operation ran)
-# sess = tf.Session(config=config)
+# Global variables
+RANDOM_SEED = 2017
+
+FRAMES_PER_VIDEO = 50
+IMAGE_SIZE = 150
+
+SAVE_DIR = os.path.join(os.getcwd(), 'saved_models')
+CRAPPY_MODEL = 'crappy_model.h5'
+BOTTLENECK_MODEL = 'bottleneck_model.h5'
+
+FONT = cv2.FONT_HERSHEY_SIMPLEX
+
+
+from keras.backend.tensorflow_backend import set_session
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+config.log_device_placement = True  # to log device placement (on which device the operation ran)
+sess = tf.Session(config=config)
 
 # #load previously trained model
-# model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(CONST.IMAGE_SIZE,CONST.IMAGE_SIZE,3)) 
-# top_model = load_model(os.path.join(CONST.SAVE_DIR,CONST.BOTTLENECK_MODEL))
+model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,CONST.IMAGE_SIZE,3)) 
+top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
 
 # #load labels
 # labels = os.listdir('./dataset')
@@ -45,16 +58,18 @@
 # while True:
 #     # Capture frame-by-frame
 #     ret, frame = cap.read()
-    
+def ai_predict(imgPath):    
 #     #preprocessing frame to predict its label
-#     frame2 = cv2.resize(frame, (CONST.IMAGE_SIZE, CONST.IMAGE_SIZE))
-#     frame2 = img_to_array(frame2)
-#     frame2 = np.array(frame2, dtype="float32") / 255
+    frame2 = cv2.imread(imagePath)
+    frame2 = cv2.resize(frame, (CONST.IMAGE_SIZE, CONST.IMAGE_SIZE))
+    frame2 = img_to_array(frame2)
+    frame2 = np.array(frame2, dtype="float32") / 255
 #     # generating a prdiction of the frame  
-#     #y_pred = model.predict_classes(frame2[None,:,:,:])
+    y_pred = model.predict_classes(frame2[None,:,:,:])
     
-#     y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
-#     print("y_pred:", y_pred)
+    y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
+    print("y_pred:", y_pred)
+    return y_pred
 #     # if(y_pred[0] != y_pred_old): 
 #     #     mixer.music.load("./sounds/"+str(y_pred[0])+'.mp3')
 #     #     mixer.music.play()
