@@ -25,8 +25,7 @@ BOTTLENECK_MODEL = 'bottleneck_model.h5'
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 
 from keras import backend as k
-from keras.backend.tensorflow_backend import set_session
-import tensorflow as tf
+
 
 
 # #load labels
@@ -52,6 +51,8 @@ import tensorflow as tf
 #     # Capture frame-by-frame
 #     ret, frame = cap.read()
 def ai_predict(imgPath):
+    from keras.backend.tensorflow_backend import set_session
+    import tensorflow as tf
     print("PATH:", imgPath)
 #     #preprocessing frame to predict its label
     config = tf.ConfigProto()
