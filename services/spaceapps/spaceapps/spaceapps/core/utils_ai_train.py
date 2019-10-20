@@ -73,6 +73,7 @@ def ai_train(images_labels):
     labels = []
     imagePaths = sorted(list(paths.list_images('dataset')))
     print(imagePaths)
+    print(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'statdatasets/1/' + file_name))
     for i, d in images_labels:
         for d1 in d:
             image = cv2.imread(imagePath)
