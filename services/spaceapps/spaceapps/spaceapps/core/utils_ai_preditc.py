@@ -75,8 +75,8 @@ def ai_predict(imgPath):
     frame2 = np.array(frame2, dtype="float32") / 255
 #     # generating a prdiction of the frame 
 
-    
-    y_pred = top_model.predict_classes(frame2)
+    with graph.as_default():
+        y_pred = top_model.predict_classes(frame2)
     
     #y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
     print("y_pred:", y_pred)
