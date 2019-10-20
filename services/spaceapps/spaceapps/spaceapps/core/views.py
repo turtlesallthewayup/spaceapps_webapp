@@ -93,7 +93,9 @@ def train():
 
 @csrf_exempt
 def predict(request):
-    pass
+    #salvar imagem e mandar path
+    path = ""
+    ai_predict(path)
 
 @csrf_exempt
 def start_stream(request):
