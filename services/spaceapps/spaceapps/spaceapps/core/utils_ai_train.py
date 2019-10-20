@@ -80,15 +80,14 @@ def ai_train(images_labels):
         image = cv2.imread(imagePath)
         image = cv2.resize(image, (IMAGE_SIZE, IMAGE_SIZE))
         image = img_to_array(image)
-        data.append(np.asarray(image).flatten()/ 255.0)
+        data.append(image)
         lab = imagePath.replace(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'), "")[0]
-        print(lab)
         labels.append(int(lab))
     
     print(len(data))
     print(len(labels))
     # scaling the data points from [0, 255] to the range [0, 1]
-    # data = np.array(data, dtype="float32") / 255.0
+    data = np.array(data, dtype="float32") / 255.0
     labels = np.array(labels)
 
     # # partition the data into training and testing splits using 75% of
@@ -102,7 +101,7 @@ def ai_train(images_labels):
     y_test = to_categorical(y_test, NUM_CLASSES).astype(int)
 
     ## to make sure  images look correct
-    # Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
+    Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
     
     #from collections import Counter
     # Counter(y_train)
