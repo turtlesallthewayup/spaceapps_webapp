@@ -108,6 +108,8 @@ function onGrabFrameButtonClick() {
 /* Utils */
 
 function drawCanvas(img) {
+    
+    
   canvas = document.createElement('canvas');
   console.log(img);
   canvas.width = 350;
@@ -214,4 +216,3 @@ console.log('STOP COMPLETE');
     video.srcObject = stream;
   }
 })();
-
