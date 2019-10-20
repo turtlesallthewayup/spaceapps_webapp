@@ -98,7 +98,9 @@ def predict(request):
     pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg'), "JPEG")
     
     path = os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg')
-    ai_predict(path)
+    command = ai_predict(path)
+    
+    print(command)
 
 @csrf_exempt
 def start_stream(request):
