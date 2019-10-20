@@ -13,7 +13,6 @@ from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling
 import matplotlib.pyplot as plt
 from PIL import Image
 from keras import optimizers
-import numpy as np
 from collections import Counter
 
 import os
@@ -66,16 +65,21 @@ labels = []
 # print("[INFO] loading dataset...")
 
 # #grab the paths to our input images followed by shuffling them 
-# imagePaths = sorted(list(paths.list_images('dataset')))
+
 
 # # loop over the input images
 def ai_train(images_labels):
     data = []
     labels = []
+    imagePaths = sorted(list(paths.list_images('dataset')))
+    print(imagePaths)
     for i, d in images_labels:
         for d1 in d:
-            data.append(np.asarray(d1))
-            labels.append(i)
+            image = cv2.imread(imagePath)
+            image = cv2.resize(image, (CONST.IMAGE_SIZE, CONST.IMAGE_SIZE))
+            image = img_to_array(image)
+            data.append(np.asarray(image).flatten()/ 255.0)
+            labels.append(int(i))
     
     print(len(data))
     print(len(labels))
@@ -87,20 +91,21 @@ def ai_train(images_labels):
     # # the data for training and the remaining 25% for testing
     (X_train, X_test, y_train, y_test) = train_test_split(data, labels, test_size=TEST_SIZE, random_state=RANDOM_SEED, stratify=labels)
     
+    print(X_train)
+    print(y_train)
     # # convert the labels from integers to vectors
     y_train = to_categorical(y_train, NUM_CLASSES).astype(int)
     y_test = to_categorical(y_test, NUM_CLASSES).astype(int)
 
     ## to make sure  images look correct
-    Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
+    # Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
     
     #from collections import Counter
-    Counter(y_train)
-    Counter(y_test)
+    # Counter(y_train)
+    # Counter(y_test)
     
     ## TRAINING THE MODEL -----------------
     print("[INFO] training the model...")
-    
     model = Sequential()
     model.add(Conv2D(32, (3, 3), input_shape=X_train[0].shape))
     model.add(Activation('relu'))
