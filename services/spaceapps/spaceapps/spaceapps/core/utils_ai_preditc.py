@@ -61,8 +61,8 @@ def ai_predict(imgPath):
 
     # #load previously trained model
     
-    model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
-    model._make_predict_function()
+    #model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
+    
     top_model = load_model(os.path.join(SAVE_DIR, BOTTLENECK_MODEL))
     frame2 = cv2.imread(imgPath)
     frame2 = cv2.resize(frame2, (IMAGE_SIZE, IMAGE_SIZE))
@@ -71,9 +71,9 @@ def ai_predict(imgPath):
 #     # generating a prdiction of the frame 
 
     k.clear_session()
-    y_pred = model.predict_classes(frame2[None,:,:,:])
+    y_pred = top_model.predict_classes(frame2[None,:,:,:])
     
-    y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
+    #y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
     print("y_pred:", y_pred)
     
     return y_pred[0]
