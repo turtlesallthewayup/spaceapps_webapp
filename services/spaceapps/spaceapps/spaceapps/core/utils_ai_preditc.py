@@ -8,6 +8,10 @@ import os
 import time
 import tensorflow as tf
 from keras import applications
+from keras import backend as K
+from tensorflow import Graph, Session
+
+from PIL import Image
 # from gtts import gTTS
 from pygame import mixer
 import shutil
@@ -24,10 +28,10 @@ BOTTLENECK_MODEL = 'bottleneck_model.h5'
 
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 
-import tensorflow as tf
 
-global model
-global graph
+
+#global model
+#global graph
 
 # #load labels
 # labels = os.listdir('./dataset')
@@ -59,13 +63,22 @@ def ai_predict(imgPath):
     # config.log_device_placement = True  # to log device placement (on which device the operation ran)
     # sess = tf.Session(config=config)
 
+    ### PRIMEIRO ####
     # #load previously trained model
-    
-    model = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
+    #K.clear_session()
+    #global model
+    #model = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
+    #model._make_predict_function()
+    #global graph
     #model = applications.VGG16(include_top=False, weights='imagenet', input_shape=(IMAGE_SIZE,IMAGE_SIZE,3)) 
-    graph = tf.get_default_graph()
+    #graph = tf.get_default_graph()
     
-    
+    ### SEGUNDO ####
+    graph1 = Graph()
+    with graph1.as_default():
+        session1 = Session(graph=graph1)
+        with session1.as_default():
+            model_1 = load_model(os.path.join(SAVE_DIR, CRAPPY_MODEL))
     
     frame2 = cv2.imread(imgPath)
     frame2 = cv2.resize(frame2, (IMAGE_SIZE, IMAGE_SIZE))
@@ -73,15 +86,24 @@ def ai_predict(imgPath):
     frame2 = np.array(frame2, dtype="float32") / 255.0
 
     Image.fromarray((frame2[-1]* 255).round().astype(np.uint8))
+    frame2 = np.expand_dims(frame2, axis=0)
 #     # generating a prdiction of the frame 
-
-    with graph.as_default():
-        y_pred = top_model.predict_classes(frame2)
     
+    ## PRIMEIRO
+    #with graph.as_default():
+        #y_pred = model.predict_classes(frame2)
+    
+    ## SEGUNDO
+    K.set_session(session1)
+    with graph1.as_default():
+        try:
+            y_pred = model_1.predict_classes(frame2)
+        except:
+            print()
     #y_pred = top_model.predict_classes(model.predict(frame2[None,:,:,:]))
-    print("y_pred:", y_pred)
+    print("y_pred:", int(y_pred))
     
-    return y_pred[0]
+    return int(y_pred[0])
 #     # if(y_pred[0] != y_pred_old): 
 #     #     mixer.music.load("./sounds/"+str(y_pred[0])+'.mp3')
 #     #     mixer.music.play()

@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['00cd2e946b7845ada590e9d3a0dd68b1.vfs.cloud9.us-west-2.amazonaws.com', '127.0.0.1']
 
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000000
+
 # Application definition
 
 INSTALLED_APPS = [

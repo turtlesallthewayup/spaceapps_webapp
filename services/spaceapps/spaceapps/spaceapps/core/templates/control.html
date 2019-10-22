@@ -94,7 +94,8 @@ function onGrabFrameCaptureOne() {
         dataType: 'json',
         method:"POST",
         success: function(data) {
-            console.log("success")
+            console.log("success");
+            console.log(data);
             }
         }
     );
@@ -102,16 +103,21 @@ function onGrabFrameCaptureOne() {
   // .catch(error => ChromeSamples.log(error));
 }
 
+var cameraInterval = null;
 function startControl() {
     
-    var x = setInterval(function(){
+    cameraInterval = setInterval(function(){
       onGrabFrameCaptureOne()       
-    }, 1000);
+    }, 5000);
 }
 
 $(".start-controll-button").on("click", function(){
   startControl()
-})    
+})
+
+$("#stop-no-number").on("click", function(){
+  clearInterval(cameraInterval);
+})  
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);

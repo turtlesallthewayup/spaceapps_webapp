@@ -106,13 +106,13 @@ class DroneControl(object):
             self.udp_socket.send(droneconfig.START_DRONE_DATA)
 
 
-if __name__ == "__main__":
-    drone = DroneControl()
-    drone.connect()
+#if __name__ == "__main__":
+    #drone = DroneControl()
+    #drone.connect()
 
-    for i in range(100):
-        drone.cmd(t=100)
+    #for i in range(100):
+        #drone.cmd(t=100)
 
-    drone.land()
-    drone.stop()
-    drone.disconnect()
+    #drone.land()
+    #drone.stop()
+    #drone.disconnect()

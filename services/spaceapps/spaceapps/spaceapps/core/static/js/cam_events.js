@@ -63,9 +63,10 @@ function startTimerBotao(duration, display) {
 function startTimerGravacao() {
     
     var label = $("#label").val()
-    var time = 5;
+    var time = 20;
     var x = setInterval(function(){
       onGrabFrameButtonClick()   
+      console.log(time)
       if (time < 0) {
         clearInterval(x);
         stopEventStreming(label);
