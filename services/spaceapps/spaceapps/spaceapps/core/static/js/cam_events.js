@@ -49,6 +49,8 @@ function startTimerBotao(duration, display) {
             $('#next').show();
             clearInterval(interval);
             
+            $(".videostream").addClass("fa-blink");
+            
             startTimerGravacao();
         }
       
@@ -61,6 +63,7 @@ function startTimerBotao(duration, display) {
 }
 
 function startTimerGravacao() {
+  
     
     var label = $("#label").val()
     var time = 5;
@@ -82,7 +85,7 @@ function onGetUserMediaButtonClick() {
     const track = mediaStream.getVideoTracks()[0];
     imageCapture = new ImageCapture(track);
   })
-  .catch(error => ChromeSamples.log(error));
+  .catch(error => console.log(error));
 }
 
 function onGrabFrameButtonClick() {
@@ -143,20 +146,12 @@ video.srcObject = stream;
 function stopEventStreming(label) {
 
 // var list_tmp = []
-
 // $(images).each(function(i, obj){
-  
-  
 //   console.log(obj);
 //   console.log(typeof(obj));
-
 //   // console.log(obj.image.toString('base64'));
-
-  
 //   // list_tmp.push(obj.image.toString('base64'));
-  
 // });
-
 // images = list_tmp
 
 console.log(images)
@@ -164,6 +159,8 @@ console.log(images)
 //video.pause();
 // localMediaStream.stop();
 console.log('STOP COMPLETE');
+
+  $(".videostream").removeClass("fa-blink");
 
  $.ajax({
         url: $("#receive_blob_url").val(),

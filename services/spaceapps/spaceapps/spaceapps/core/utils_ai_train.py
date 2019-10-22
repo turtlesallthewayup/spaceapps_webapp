@@ -2,21 +2,21 @@
 
 import numpy as np
 import os
-import cv2
+# import cv2
 import time
-from imutils import paths
-from sklearn.model_selection import train_test_split
-from keras.preprocessing.image import img_to_array
-from keras.utils import to_categorical
-from keras.models import Sequential
-from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
-import matplotlib.pyplot as plt
+# from imutils import paths
+# from sklearn.model_selection import train_test_split
+# from keras.preprocessing.image import img_to_array
+# from keras.utils import to_categorical
+# from keras.models import Sequential
+# from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
+# import matplotlib.pyplot as plt
 from PIL import Image
-from keras import optimizers
+# from keras import optimizers
 import numpy as np
 
 import os
-import cv2
+# import cv2
 # Global variables
 RANDOM_SEED = 2017
 
@@ -27,7 +27,7 @@ SAVE_DIR = os.path.join(os.getcwd(), 'saved_models')
 CRAPPY_MODEL = 'crappy_model.h5'
 BOTTLENECK_MODEL = 'bottleneck_model.h5'
 
-FONT = cv2.FONT_HERSHEY_SIMPLEX
+# FONT = cv2.FONT_HERSHEY_SIMPLEX
 
 
 EPOCHS = 15

@@ -4,7 +4,7 @@
 
 <body>
 	<!-- Team Section -->
-	
+	<input id="label" type="hidden" value="11" />
 	<div class="team-section spad">
 		<div class="overlay"></div>
 		<div class="container">
@@ -27,56 +27,51 @@
           			</div>
                       <div class="text-center">
           				    <p><button class="capture-button site-btn text-center">Iniciar</button>
-          			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
+          			        <button id="stop-control" class="site-btn text-center">Stop</button>
       				  </p>
       				</div>
-      			
-      			    
-    			
               </div>
 			</div>
 		</div>
 	</div>
-	<!-- Team Section end-->
 
-
-	<!-- Promotion section -->
-	<!-- Promotion section end-->
 </body>
 
 {% endblock %}
 {% block script %}
-
 <script>
-    $(document).ready(function(){
-    $('.capture-button').on('click', function (e) {
-        console.log("estou funcionando")
-        $('#down-control').addClass('video-r');
-        $('#down-control').addClass('control-video');
-        $('.videostream').show();
-        $('.capture-button').hide();
-        $('#stop-no-number').show();
-        $('#stop-no-number').on('click', function () {
-           $('.capture-button').show();
-           $('#stop-no-number').hide();
-        });
-    });  
-   $( ".item-menu" ).removeClass( "active" );
-   $( ".menu-treino" ).addClass( "active" );
-   $('.videostream').hide();
-   $('#stop-no-number').hide();
-      
-  
-  
-  
-  
-});
+var fiveMinutes = 5;
+var imageCapture;
+var images = [];
 
+const video = document.querySelector('#basic video');
+const captureVideoButton = document.querySelector('#basic .capture-button');
+const x = null;
+const fd = new FormData();
+
+$(document).ready(function(){
     
-</script>
-
-
-<script>
+    var display = document.querySelector('#stop-control');
+    
+    $('#next').hide();
+    $("#again").hide();
+    
+    $( ".item-menu" ).removeClass( "active" );
+    $( ".menu-treino" ).addClass( "active" );
+    $('#stop-control').hide();
+   
+    $('.capture-button').on('click', function (e) { 
+       console.log("log capture click");
+       
+        $('.videostream').show();
+        $('.capture-button').show();
+        $('#stop-control').show();
+        $('#next').hide();  
+       
+        startTimerBotao(fiveMinutes, display);
+    });  
+    
+});
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
@@ -98,7 +93,7 @@ const constraints = {video: true};
       then(handleSuccess).catch(handleError);
   };
 
-  document.querySelector('#stop-no-number').onclick = function() {
+  document.querySelector('#stop-control').onclick = function() {
     video.pause();
     localMediaStream.stop();
   };
@@ -132,39 +127,6 @@ const constraints = {video: true};
   }
 })();
 
-(function() {
-  const captureVideoButton =
-    document.querySelector('#cssfilters .capture-button');
-  const cssFiltersButton = document.querySelector('#cssfilters-apply');
-  const video = document.querySelector('#cssfilters video');
-
-  let filterIndex = 0;
-  const filters = [
-    'grayscale',
-    'sepia',
-    'blur',
-    'brightness',
-    'contrast',
-    'hue-rotate',
-    'hue-rotate2',
-    'hue-rotate3',
-    'saturate',
-    'invert',
-    ''
-  ];
-
-  captureVideoButton.onclick = function() {
-    navigator.mediaDevices.getUserMedia(constraints).
-      then(handleSuccess).catch(handleError);
-  };
-
-  cssFiltersButton.onclick = video.onclick = function() {
-    video.className = filters[filterIndex++ % filters.length];
-  };
-
-  function handleSuccess(stream) {
-    video.srcObject = stream;
-  }
-})();
+ 
 </script>
 {% endblock %}
