@@ -4,11 +4,7 @@
 
 <body>
 	<!-- Team Section -->
-<<<<<<< HEAD
-	<input id="label" type="hidden" value="11" />
-=======
 	<input id="predict_url" type="hidden" value="{% url 'core:predict'%}" >
->>>>>>> cf15f576dca69071adb1337a3366b90385196b72
 	<div class="team-section spad">
 		<div class="overlay"></div>
 		<div class="container">
@@ -30,13 +26,8 @@
                         </div>    
           			</div>
                       <div class="text-center">
-<<<<<<< HEAD
-          				    <p><button class="capture-button site-btn text-center">Iniciar</button>
-          			        <button id="stop-control" class="site-btn text-center">Stop</button>
-=======
           				    <p><button class="start-controll-button site-btn text-center">Iniciar</button>
           			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
->>>>>>> cf15f576dca69071adb1337a3366b90385196b72
       				  </p>
       				</div>
               </div>
@@ -49,7 +40,6 @@
 {% endblock %}
 {% block script %}
 <script>
-<<<<<<< HEAD
 var fiveMinutes = 5;
 var imageCapture;
 var images = [];
@@ -73,13 +63,6 @@ $(document).ready(function(){
     $('.capture-button').on('click', function (e) { 
        console.log("log capture click");
        
-=======
-    $(document).ready(function(){
-    $('.start-controll-button').on('click', function (e) {
-        console.log("estou funcionando")
-        $('#down-control').addClass('video-r');
-        $('#down-control').addClass('control-video');
->>>>>>> cf15f576dca69071adb1337a3366b90385196b72
         $('.videostream').show();
         $('.capture-button').show();
         $('#stop-control').show();
@@ -87,10 +70,6 @@ $(document).ready(function(){
        
         startTimerBotao(fiveMinutes, display);
     });  
-<<<<<<< HEAD
-    
-});
-=======
    $( ".item-menu" ).removeClass( "active" );
    $( ".menu-treino" ).addClass( "active" );
    $('.videostream').hide();
@@ -142,7 +121,6 @@ function startControl() {
 $(".start-controll-button").on("click", function(){
   startControl()
 })    
->>>>>>> cf15f576dca69071adb1337a3366b90385196b72
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
