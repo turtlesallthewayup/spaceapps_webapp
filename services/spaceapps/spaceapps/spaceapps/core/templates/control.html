@@ -30,36 +30,45 @@
           			        <button id="stop-no-number" class="site-btn text-center">Stop</button>
       				  </p>
       				</div>
-      			
-      			    
-    			
               </div>
 			</div>
 		</div>
 	</div>
-	<!-- Team Section end-->
 
-
-	<!-- Promotion section -->
-	<!-- Promotion section end-->
 </body>
 
 {% endblock %}
 {% block script %}
-
 <script>
-    $(document).ready(function(){
-    $('.start-controll-button').on('click', function (e) {
-        console.log("estou funcionando")
-        $('#down-control').addClass('video-r');
-        $('#down-control').addClass('control-video');
+var fiveMinutes = 5;
+var imageCapture;
+var images = [];
+
+const video = document.querySelector('#basic video');
+const captureVideoButton = document.querySelector('#basic .capture-button');
+const x = null;
+const fd = new FormData();
+
+$(document).ready(function(){
+    
+    var display = document.querySelector('#stop-control');
+    
+    $('#next').hide();
+    $("#again").hide();
+    
+    $( ".item-menu" ).removeClass( "active" );
+    $( ".menu-treino" ).addClass( "active" );
+    $('#stop-control').hide();
+   
+    $('.capture-button').on('click', function (e) { 
+       console.log("log capture click");
+       
         $('.videostream').show();
-        $('.capture-button').hide();
-        $('#stop-no-number').show();
-        $('#stop-no-number').on('click', function () {
-           $('.capture-button').show();
-           $('#stop-no-number').hide();
-        });
+        $('.capture-button').show();
+        $('#stop-control').show();
+        $('#next').hide();  
+       
+        startTimerBotao(fiveMinutes, display);
     });  
    $( ".item-menu" ).removeClass( "active" );
    $( ".menu-treino" ).addClass( "active" );
@@ -94,8 +103,7 @@ function onGrabFrameCaptureOne() {
         dataType: 'json',
         method:"POST",
         success: function(data) {
-            console.log("success");
-            console.log(data);
+            console.log("success")
             }
         }
     );
@@ -103,21 +111,16 @@ function onGrabFrameCaptureOne() {
   // .catch(error => ChromeSamples.log(error));
 }
 
-var cameraInterval = null;
 function startControl() {
     
-    cameraInterval = setInterval(function(){
+    var x = setInterval(function(){
       onGrabFrameCaptureOne()       
-    }, 5000);
+    }, 1000);
 }
 
 $(".start-controll-button").on("click", function(){
   startControl()
-})
-
-$("#stop-no-number").on("click", function(){
-  clearInterval(cameraInterval);
-})  
+})    
 
 function handleError(error) {
   console.error('navigator.getUserMedia error: ', error);
@@ -139,7 +142,7 @@ function handleError(error) {
       then(handleSuccess).catch(handleError);
   };
 
-  document.querySelector('#stop-no-number').onclick = function() {
+  document.querySelector('#stop-control').onclick = function() {
     video.pause();
     localMediaStream.stop();
   };
@@ -173,39 +176,6 @@ function handleError(error) {
   }
 })();
 
-(function() {
-  const captureVideoButton =
-    document.querySelector('#cssfilters .capture-button');
-  const cssFiltersButton = document.querySelector('#cssfilters-apply');
-  const video = document.querySelector('#cssfilters video');
-
-  let filterIndex = 0;
-  const filters = [
-    'grayscale',
-    'sepia',
-    'blur',
-    'brightness',
-    'contrast',
-    'hue-rotate',
-    'hue-rotate2',
-    'hue-rotate3',
-    'saturate',
-    'invert',
-    ''
-  ];
-
-  captureVideoButton.onclick = function() {
-    navigator.mediaDevices.getUserMedia(constraints).
-      then(handleSuccess).catch(handleError);
-  };
-
-  cssFiltersButton.onclick = video.onclick = function() {
-    video.className = filters[filterIndex++ % filters.length];
-  };
-
-  function handleSuccess(stream) {
-    video.srcObject = stream;
-  }
-})();
+ 
 </script>
 {% endblock %}
