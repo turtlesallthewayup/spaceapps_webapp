@@ -2,11 +2,15 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 import io
+import os
 
 from spaceapps.core.utils import base64_to_file
 from spaceapps.core.utils_ai_train import ai_train
+from spaceapps.core.utils_ai_preditc import ai_predict
+
 
 DATA = []
 # Create your views here.
@@ -53,11 +57,12 @@ def traning_step9(request):
     
 def traning_step10(request):
     context = {}
-    train()
+    
     return render(request, 'traning_step10.html', context)
     
 def control(request):
     context = {}
+    train()
     return render(request, 'control.html', context)
     
     
@@ -68,9 +73,14 @@ def receive_blob(request):
     data = request.POST.getlist("images[]")
     label = request.POST.get("label")
     images_file = []
-    for d in data:
-        x=base64_to_file(d)
-        images_file.append(x)
+    for i, d in enumerate(data):
+        pillow_img=base64_to_file(d)
+        
+        file_name = 'img_{}.jpeg'.format(i)
+        
+        pillow_img.save(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets', label, file_name), "JPEG")
+
+        images_file.append(pillow_img)
     
     DATA.append((label, images_file))
     print(DATA)    
@@ -83,7 +93,17 @@ def train():
 
 @csrf_exempt
 def predict(request):
-    pass
+    
+    data = request.POST.get("image")
+    pillow_img=base64_to_file(data)
+
+    path = os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'to_predict', 'img_to_predict.jpeg')
+
+    pillow_img.save(path, "JPEG")
+    
+    command = ai_predict(path)
+    
+    print(command)
 
 @csrf_exempt
 def start_stream(request):

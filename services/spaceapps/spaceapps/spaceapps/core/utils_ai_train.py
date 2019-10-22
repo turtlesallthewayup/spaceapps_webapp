@@ -12,8 +12,14 @@ import time
 # from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
 # import matplotlib.pyplot as plt
 from PIL import Image
+<<<<<<< HEAD
 # from keras import optimizers
 import numpy as np
+=======
+from keras import optimizers
+from collections import Counter
+from django.conf import settings
+>>>>>>> cf15f576dca69071adb1337a3366b90385196b72
 
 import os
 # import cv2
@@ -23,7 +29,7 @@ RANDOM_SEED = 2017
 FRAMES_PER_VIDEO = 50
 IMAGE_SIZE = 150
 
-SAVE_DIR = os.path.join(os.getcwd(), 'saved_models')
+SAVE_DIR = os.path.join(os.path.join(settings.BASE_DIR, 'spaceapps', 'core'), 'saved_models')
 CRAPPY_MODEL = 'crappy_model.h5'
 BOTTLENECK_MODEL = 'bottleneck_model.h5'
 
@@ -65,88 +71,96 @@ labels = []
 # print("[INFO] loading dataset...")
 
 # #grab the paths to our input images followed by shuffling them 
-# imagePaths = sorted(list(paths.list_images('dataset')))
+
 
 # # loop over the input images
 def ai_train(images_labels):
     data = []
     labels = []
-    for i, d in images_labels:
-        for d1 in d:
-            data.append(np.asarray(d1))
-            labels.append(i)
+    imagePaths = sorted(list(paths.list_images(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'))))
+    print(imagePaths)
+    
+    for imagePath in imagePaths:
+    
+        image = cv2.imread(imagePath)
+        image = cv2.resize(image, (IMAGE_SIZE, IMAGE_SIZE))
+        image = img_to_array(image)
+        data.append(image)
+        lab = imagePath.replace(os.path.join(settings.BASE_DIR, 'spaceapps', 'core', 'datasets/'), "")[0]
+        labels.append(int(lab))
     
     print(len(data))
     print(len(labels))
     # scaling the data points from [0, 255] to the range [0, 1]
-    # data = np.array(data, dtype="float32") / 255.0
-    # labels = np.array(labels)
+    data = np.array(data, dtype="float32") / 255.0
+    labels = np.array(labels)
 
     # # partition the data into training and testing splits using 75% of
     # # the data for training and the remaining 25% for testing
-    # (X_train, X_test, y_train, y_test) = train_test_split(data, labels, test_size=TEST_SIZE, random_state=CONST.RANDOM_SEED, stratify=labels)
+    (X_train, X_test, y_train, y_test) = train_test_split(data, labels, test_size=TEST_SIZE, random_state=RANDOM_SEED, stratify=labels)
     
+    print(X_train)
+    print(y_train)
     # # convert the labels from integers to vectors
-    # y_train = to_categorical(y_train, NUM_CLASSES).astype(int)
-    # y_test = to_categorical(y_test, NUM_CLASSES).astype(int)
+    y_train = to_categorical(y_train, NUM_CLASSES).astype(int)
+    y_test = to_categorical(y_test, NUM_CLASSES).astype(int)
 
     ## to make sure  images look correct
-    #Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
+    Image.fromarray((X_train[-1]* 255).round().astype(np.uint8))
     
     #from collections import Counter
-    #Counter(y_train)
-    #Counter(y_test)
+    # Counter(y_train)
+    # Counter(y_test)
     
     ## TRAINING THE MODEL -----------------
-    # print("[INFO] training the model...")
+    print("[INFO] training the model...")
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), input_shape=X_train[0].shape))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     
-    # model = Sequential()
-    # model.add(Conv2D(32, (3, 3), input_shape=X_train[0].shape))
-    # model.add(Activation('relu'))
-    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(32, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     
-    # model.add(Conv2D(32, (3, 3)))
-    # model.add(Activation('relu'))
-    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     
-    # model.add(Conv2D(64, (3, 3)))
-    # model.add(Activation('relu'))
-    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Flatten())
+    model.add(Dense(64))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(NUM_CLASSES, activation='sigmoid'))
     
-    # model.add(Flatten())
-    # model.add(Dense(64))
-    # model.add(Activation('relu'))
-    # model.add(Dropout(0.5))
-    # model.add(Dense(NUM_CLASSES, activation='sigmoid'))
+    sgd = optimizers.SGD(lr=0.01)
     
-    # sgd = optimizers.SGD(lr=0.01)
+    model.compile(loss='categorical_crossentropy',
+                  optimizer=sgd,
+                  metrics=['accuracy'])
     
-    # model.compile(loss='categorical_crossentropy',
-    #               optimizer=sgd,
-    #               metrics=['accuracy'])
+    start = time.time()
+    model_info = model.fit(
+            X_train, y_train,
+            batch_size=BATCH_SIZE,
+            epochs=EPOCHS,
+            validation_data=(X_test, y_test),
+            shuffle=True,
+            verbose=1)
+    end = time.time()
     
-    # start = time.time()
-    # model_info = model.fit(
-    #         X_train, y_train,
-    #         batch_size=BATCH_SIZE,
-    #         epochs=EPOCHS,
-    #         validation_data=(X_test, y_test),
-    #         shuffle=True,
-    #         verbose=1)
-    # end = time.time()
-    
-    # print ("\nModel training time: %0.1fs\n" % (end - start))
+    print ("\nModel training time: %0.1fs\n" % (end - start))
     
     # plot_model_history(model_info)
     
     # # Evaluating the trained model
-    # scores = model.evaluate(X_test, y_test)
-    # print("\nTest Loss:  %.2f%%" % (scores[0]*100))
-    # print("Test Accuracy: %.2f%%\n" % (scores[1]*100))
+    scores = model.evaluate(X_test, y_test)
+    print("\nTest Loss:  %.2f%%" % (scores[0]*100))
+    print("Test Accuracy: %.2f%%\n" % (scores[1]*100))
     
     # # Saving model
-    # if not os.path.isdir(CONST.SAVE_DIR):
-    #     os.makedirs(CONST.SAVE_DIR)
-    # model_path = os.path.join(CONST.SAVE_DIR, CONST.CRAPPY_MODEL)
-    # model.save(model_path)
-    # print('\nSaved trained model at %s ' % model_path)
+    if not os.path.isdir(SAVE_DIR):
+        os.makedirs(SAVE_DIR)
+    model_path = os.path.join(SAVE_DIR, CRAPPY_MODEL)
+    model.save(model_path)
+    print('\nSaved trained model at %s ' % model_path)
